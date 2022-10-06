@@ -44,8 +44,8 @@ private:
 	void GetOp(string cmdLine, int& l, int& r, int begin = 0);
 	int CreateConstNum(int num);
 
-	// ��ȡ����Ͳ������������֡����мĴ������ƺͳ�������
-	// �������ʣMark��Jmp��ʶ��
+	// 提取命令和参数，处理数字、所有寄存器代称和常数代称
+	// 处理后仅剩Mark和Jmp标识符
 	Cmd Decode(const string& cmdLine);
 	void GenerateMapping();
 public:
@@ -170,7 +170,7 @@ Cmd Code::Decode(const string& cmdLine) {
 					case CMD_NAME_ID:
 						if (opIndex != 0)
 							throw "Duplicate identifier!";
-						// elseû��break����Ҫִ��default
+						// else没有break，需要执行default
 					default: 
 						cmd.opi[opIndex++] = _names[opistr];
 					}
@@ -208,7 +208,7 @@ Cmd Code::Decode(const string& cmdLine) {
 void Code::GenerateMapping() {
 	list<Cmd> res;
 	int index = 0;
-	// ��һ��ѭ����Mark��Flag��ţ�res��������ָ�
+	// 第一次循环给Mark的Flag标号，res保留基本指令集
 	for (auto& cmd : _cmds) {
 		if (cmd.op == CMD_MARK_ID) {
 			if (cmd.flag.empty())
@@ -220,7 +220,7 @@ void Code::GenerateMapping() {
 			res.push_back(cmd);
 		}
 	}
-	// �ڶ���ѭ������Jmpָ��
+	// 第二次循环定义Jmp指向
 	for (auto& cmd : res) {
 		if (cmd.op == CMD_JMP_ID) {
 			if (!_marks.count(cmd.flag))
@@ -228,7 +228,7 @@ void Code::GenerateMapping() {
 			cmd.opi[0] = _marks[cmd.flag];
 		}
 	}
-	// �����ı�������뽻��_cmds��Ա
+	// 完整的编译机器码交回_cmds成员
 	_cmds = move(res);
 }
 

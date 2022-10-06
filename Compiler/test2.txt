@@ -13,7 +13,7 @@ for(int i = 1;i <= 10;++i)
 	sum *= i;
 cout << sum;
 
-// ��mul�Ľ��ͳһ����r6��
+// 将mul的结果统一存在r6中
 name r0,_1
 name r1,_10
 name r2,_0
