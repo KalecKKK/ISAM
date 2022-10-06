@@ -13,7 +13,7 @@ for(int i = 1;i <= 10;++i)
 	sum *= i;
 cout << sum;
 
-// ½«mulµÄ½á¹ûÍ³Ò»´æÔÚr6ÖÐ
+// å°†mulçš„ç»“æžœç»Ÿä¸€å­˜åœ¨r6ä¸­
 name r0,_1
 name r1,_10
 name r2,_0

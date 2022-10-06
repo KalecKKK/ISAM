@@ -44,8 +44,8 @@ private:
 	void GetOp(string cmdLine, int& l, int& r, int begin = 0);
 	int CreateConstNum(int num);
 
-	// ÌáÈ¡ÃüÁîºÍ²ÎÊı£¬´¦ÀíÊı×Ö¡¢ËùÓĞ¼Ä´æÆ÷´ú³ÆºÍ³£Êı´ú³Æ
-	// ´¦Àíºó½öÊ£MarkºÍJmp±êÊ¶·û
+	// æå–å‘½ä»¤å’Œå‚æ•°ï¼Œå¤„ç†æ•°å­—ã€æ‰€æœ‰å¯„å­˜å™¨ä»£ç§°å’Œå¸¸æ•°ä»£ç§°
+	// å¤„ç†åä»…å‰©Markå’ŒJmpæ ‡è¯†ç¬¦
 	Cmd Decode(const string& cmdLine);
 	void GenerateMapping();
 public:
@@ -170,7 +170,7 @@ Cmd Code::Decode(const string& cmdLine) {
 					case CMD_NAME_ID:
 						if (opIndex != 0)
 							throw "Duplicate identifier!";
-						// elseÃ»ÓĞbreak£¬ĞèÒªÖ´ĞĞdefault
+						// elseæ²¡æœ‰breakï¼Œéœ€è¦æ‰§è¡Œdefault
 					default: 
 						cmd.opi[opIndex++] = _names[opistr];
 					}
@@ -208,7 +208,7 @@ Cmd Code::Decode(const string& cmdLine) {
 void Code::GenerateMapping() {
 	list<Cmd> res;
 	int index = 0;
-	// µÚÒ»´ÎÑ­»·¸øMarkµÄFlag±êºÅ£¬res±£Áô»ù±¾Ö¸Áî¼¯
+	// ç¬¬ä¸€æ¬¡å¾ªç¯ç»™Markçš„Flagæ ‡å·ï¼Œresä¿ç•™åŸºæœ¬æŒ‡ä»¤é›†
 	for (auto& cmd : _cmds) {
 		if (cmd.op == CMD_MARK_ID) {
 			if (cmd.flag.empty())
@@ -220,7 +220,7 @@ void Code::GenerateMapping() {
 			res.push_back(cmd);
 		}
 	}
-	// µÚ¶ş´ÎÑ­»·¶¨ÒåJmpÖ¸Ïò
+	// ç¬¬äºŒæ¬¡å¾ªç¯å®šä¹‰JmpæŒ‡å‘
 	for (auto& cmd : res) {
 		if (cmd.op == CMD_JMP_ID) {
 			if (!_marks.count(cmd.flag))
@@ -228,7 +228,7 @@ void Code::GenerateMapping() {
 			cmd.opi[0] = _marks[cmd.flag];
 		}
 	}
-	// ÍêÕûµÄ±àÒë»úÆ÷Âë½»»Ø_cmds³ÉÔ±
+	// å®Œæ•´çš„ç¼–è¯‘æœºå™¨ç äº¤å›_cmdsæˆå‘˜
 	_cmds = move(res);
 }
 
