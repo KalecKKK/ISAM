@@ -1,0 +1,114 @@
+// 1*2*...*10
+int mul(int a, int b):
+	int res = 0, base = a;
+	while b:
+		if b & 1:
+			res += base;
+		base <<= 1;
+		b >>= 1;
+	return res;
+
+int sum = 1;
+for(int i = 1;i <= 10;++i)
+	sum *= i;
+cout << sum;
+
+// ��mul�Ľ��ͳһ����r6��
+name r0,_1
+name r1,_10
+name r2,_0
+
+name r3,a
+name a,base
+name r4,b
+name r5,b&1
+name r6,res
+name res,mul
+
+name r7,sum
+name r8,i
+
+jmp main
+
+mark func_mul
+	rst res
+
+	jmp func_loop_if
+	mark func_loop
+		and b&1,b,_1
+		ifeq b&1,_0
+		add res,res,base
+		sl base,base,_1
+		sr b,b,_1
+	mark func_loop_if
+	ifeq b,_0
+	jmp func_loop
+
+	jmp return
+
+mark main
+	rst _1
+	wl _1,1
+	rst _10
+	wl _10,10
+	rst _0
+
+	mov sum,_1
+	mov i,_1
+
+	mark loop
+	add i,i,_1
+		mov a,sum
+		mov b,i
+		jmp func_mul
+		mark return
+		mov sum,mul
+	ifeq i,_10
+	jmp loop
+
+	out sum
+
+// simplified
+new a
+name a,base
+new b
+new b&1
+new res
+name res,mul
+
+new sum
+new i
+
+jmp main
+
+mark func_mul
+	rst res
+
+	jmp func_loop_if
+	mark func_loop
+		and b&1,b,1
+		ifeq b&1,0
+		add res,res,base
+		sl base,base,1
+		sr b,b,1
+	mark func_loop_if
+	ifeq b,0
+	jmp func_loop
+
+	jmp return
+
+mark main
+	mov sum,1
+	mov i,1
+
+	mark loop
+	add i,i,1
+		mov a,sum
+		mov b,i
+		jmp func_mul
+		mark return
+		mov sum,mul
+	ifeq i,10
+	jmp loop
+
+	out sum

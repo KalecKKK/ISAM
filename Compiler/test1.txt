@@ -1,0 +1,62 @@
+// 1+2+...+100
+rename r0 sum;
+rename r1 i;
+
+sum = 0;
+i = 0;
+while i != 100:
+	++i;
+	sum = sum + i;
+end
+if sum == 5050:
+output sum;
+else:
+output -1;
+end
+
+// code
+name r0,sum
+name r1,i
+name r2,_1
+name r3,_5050
+name r4,_n1
+name r5,_100
+rst r0
+rst r1
+rst r2
+rst r3
+rst r5
+wl r2,1
+wl r3,5050
+wh r4,65535
+wl r4,65535
+wl r5,100
+mark loop
+add i,i,_1
+add sum,sum,i
+ifeq i,_100
+jmp loop
+ifeq sum,_5050
+jmp false
+out sum
+jmp endif
+mark false
+out _n1
+mark endif
+
+// simplified
+new sum
+new i
+mark loop
+	add i,i,1
+	add sum,sum,i
+ifeq i,100
+jmp loop
+
+ifeq sum,5050
+jmp false
+	out sum
+jmp endif
+mark false
+	out -1
+mark endif
